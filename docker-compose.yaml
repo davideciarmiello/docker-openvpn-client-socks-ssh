@@ -1,0 +1,25 @@
+version: '3.2'
+
+
+services:
+
+  docker-openvpn-client-socks-ssh-build:
+    build:
+      context: .      
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    environment:
+      #- DEBUG=true
+      - HOST_ROUTES=192.168.99.0/24
+      - PORT_FORWARD_HOST=192.168.99.1
+      - PORT_FORWARD_PORTS=5900,3389
+    volumes:
+      - ./configs/openvpnconfigs/:/etc/openvpn/
+      - ./configs/entrypoint/:/etc/entrypoint.d/
+
+
+networks:
+  bridge_vlan:
+    external: true
+
